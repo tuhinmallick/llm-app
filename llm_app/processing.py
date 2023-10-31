@@ -57,7 +57,7 @@ def chunk_texts(
     while i < len(tokens):
         chunk_tokens = tokens[i : i + max_tokens]
         chunk = tokenizer.decode(chunk_tokens)
-        last_punctuation = max([chunk.rfind(p) for p in PUNCTUATION], default=-1)
+        last_punctuation = max((chunk.rfind(p) for p in PUNCTUATION), default=-1)
         if last_punctuation != -1 and last_punctuation > CHARS_PER_TOKEN * min_tokens:
             chunk = chunk[: last_punctuation + 1]
 

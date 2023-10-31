@@ -18,8 +18,9 @@ data_path = "../../../../examples/data/finance/"
 # Streamlit UI elements
 st.title("LLM App")
 
-uploaded_files = st.file_uploader("Upload a text file", accept_multiple_files=True)
-if uploaded_files:
+if uploaded_files := st.file_uploader(
+    "Upload a text file", accept_multiple_files=True
+):
     for file in uploaded_files:
         print(file.name)
         with open(os.path.join(data_path, file.name), "wb") as f:

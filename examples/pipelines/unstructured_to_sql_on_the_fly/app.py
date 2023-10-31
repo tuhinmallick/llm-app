@@ -148,13 +148,12 @@ def build_prompt_structure(
         logging.warning("Document is too large for one query.")
         docs_str = encoding.decode(doc_tokens[:available_tokens])
 
-    prompt = prompt_prefix + docs_str + prompt_suffix
-    return prompt
+    return prompt_prefix + docs_str + prompt_suffix
 
 
 @pw.udf
 def build_prompt_query(postresql_table: str, query: str) -> str:
-    prompt = f"""Transform the given query '{query}' into a specific SQL SELECT statement format.
+    return f"""Transform the given query '{query}' into a specific SQL SELECT statement format.
     For invalid queries, return the string 'None'. The result should be executable in PostgreSQL.
 
     The query should include the following components:
@@ -192,7 +191,6 @@ def build_prompt_query(postresql_table: str, query: str) -> str:
     Make sure the query adheres to the specified format,
     and do not include any other SQL commands or clauses besides the SELECT statement.
     Thank you!"""
-    return prompt
 
 
 @pw.udf
