@@ -66,8 +66,7 @@ class HFApiFeatureExtractionTask(HuggingFaceAPIModel):
     def __call__(
         self, text: str, locator="sentence-transformers/all-MiniLM-L6-v2", **kwargs
     ):
-        response = self.call_api(inputs=[text], model=locator, **kwargs)
-        return response
+        return self.call_api(inputs=[text], model=locator, **kwargs)
 
 
 class HFApiTextGenerationTask(HuggingFaceAPIModel):

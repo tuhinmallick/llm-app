@@ -47,17 +47,16 @@ class QueryInputSchema(pw.Schema):
 @pw.udf
 def build_prompt(documents, query):
     docs_str = "\n".join(documents)
-    prompt = f"""Please process the documents below:
+    return f"""Please process the documents below:
 {docs_str}
 
 Respond to query: '{query}'
 """
-    return prompt
 
 
 @pw.udf
 def build_prompt_check_for_alert_request_and_extract_query(query: str) -> str:
-    prompt = f"""Evaluate the user's query and identify if there is a request for notifications on answer alterations:
+    return f"""Evaluate the user's query and identify if there is a request for notifications on answer alterations:
     User Query: '{query}'
 
     Respond with 'Yes' if there is a request for alerts, and 'No' if not,
@@ -67,7 +66,6 @@ def build_prompt_check_for_alert_request_and_extract_query(query: str) -> str:
     "Tell me about windows in Pathway" => "No. Tell me about windows in Pathway"
     "Tell me and alert about windows in Pathway" => "Yes. Tell me about windows in Pathway"
     """
-    return prompt
 
 
 @pw.udf
@@ -78,7 +76,7 @@ def split_answer(answer: str) -> tuple[bool, str]:
 
 
 def build_prompt_compare_answers(new: str, old: str) -> str:
-    prompt = f"""
+    return f"""
     Are the two following responses deviating?
     Answer with Yes or No.
 
@@ -86,7 +84,6 @@ def build_prompt_compare_answers(new: str, old: str) -> str:
 
     Second response: "{new}"
     """
-    return prompt
 
 
 def make_query_id(user, query) -> str:
@@ -100,9 +97,7 @@ def construct_notification_message(query: str, response: str) -> str:
 
 @pw.udf
 def construct_message(response, alert_flag):
-    if alert_flag:
-        return response + "\n\n🔔 Activated"
-    return response
+    return response + "\n\n🔔 Activated" if alert_flag else response
 
 
 def decision_to_bool(decision: str) -> bool:

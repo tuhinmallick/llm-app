@@ -73,10 +73,7 @@ class HFFeatureExtractionTask(HFPipelineTask):
         # This will return a list of lists (one list for each word in the text)
         embedding = self.pipeline(text, **kwargs)[0]
 
-        # For simplicity, we'll just average all word vectors to get a sentence embedding
-        avg_embedding = [sum(col) / len(col) for col in zip(*embedding)]
-
-        return avg_embedding
+        return [sum(col) / len(col) for col in zip(*embedding)]
 
 
 class HFTextGenerationTask(HFPipelineTask):
